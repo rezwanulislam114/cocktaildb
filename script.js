@@ -1,14 +1,17 @@
+const searchButton = document.getElementById('search-button');
+const searchInputFeild = document.getElementById('search-input');
 const errorSection = document.getElementById('display-errors');
 
 
 
-// call api function 
-const callApi = () => {
-    const searchInputFeild = document.getElementById('search-input');
+
+// call from api function 
+searchButton.addEventListener('click', () => { 
+    
     const searchInput = searchInputFeild.value;
     const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
     if (searchInput === '') {
-        console.log('input a name')
+        errorSection.innerHTML = `<h2 class="text-center mt-5">Please search by any key words.</h2>`
     }
     else {
         fetch(url)
@@ -18,25 +21,25 @@ const callApi = () => {
 
     // clear search input 
     searchInputFeild.value = '';
-}
+})
 
-// call callapi function by pressing enter key.
-document.getElementById('search-input').onkeydown = function (event) {
+// call api function by pressing enter key.
+searchInputFeild.onkeydown = function (event) {
     if (event.keyCode == 13) {
-        callApi()
+        searchButton.click();
     }
 }
 
 
 
 const displayDrinks = drinks => {
-    console.log(drinks)
     const drinksSection = document.getElementById('display-drinks');
     // clear html body 
-    drinksSection.textContent = '';
+    drinksSection.innerHTML = '';
+    errorSection.innerHTML = '';
 
     if (drinks === null) {
-        console.log('no drinks found')
+        errorSection.innerHTML = `<h2 class="text-center mt-5">Sorry. No drinks found by this name.</h2>`
     }
 
     else {
